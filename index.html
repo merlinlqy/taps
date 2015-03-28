@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>taps</title>
+    <meta charset="utf-8">
+    <style>
+      body {
+        margin: 0px;
+        padding: 0px;
+      }
+    </style>
+	<!-- <script type="text/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1/jquery.min.js"></script> -->
+	<script>
+	 var canvas;
+     var context;
+	 var imageObj = new Image();
+     imageObj.src = 'background.jpg';
+	 var hp_max = 100;
+	 var hp = hp_max;
+	 
+	 imageObj.onload = function() {
+        draw_background();
+      };
+	 
+	 function OnClickJpg()
+	 {
+		if (hp > 0)
+		{
+			hp--;
+			init();
+			draw_hp();
+		}
+	 }
+	 
+	 function draw_background()
+	 {
+		var width = context.width;
+		var height = context.height;
+		context.drawImage(imageObj, 0, 0, width, height);
+	 }
+	 function draw_hp()
+	 {
+		var len = 500;
+		var mis = len * (hp_max - hp) / hp_max;
+		context.save();
+		context.beginPath();
+		context.rect(175, 90, len, 10);
+		context.fillStyle = 'red';
+		context.shadowColor = '#999';
+        context.shadowBlur = 20;
+		context.shadowOffsetX = 5;
+        context.shadowOffsetY = 5;
+		context.fill();
+		context.beginPath();
+		context.rect(175 + len - mis, 90, mis, 10);
+		context.fillStyle = 'yellow';
+		context.fill();
+        		
+		context.font = 'italic 18pt Calibri';
+
+		context.fillText(hp, 150, 100);
+	    context.restore();
+	 }
+	function init()
+	{
+
+	  draw_background();
+
+
+	 } 
+    </script>	
+  </head>
+  <body>
+    <canvas id="myCanvas" width="200" height="300" OnClick="OnClickJpg()"></canvas>
+	<script>
+		canvas = document.getElementById('myCanvas');
+        context = canvas.getContext('2d');
+		init();
+	</script>
+
+	
+	
+  </body>
+</html>  
